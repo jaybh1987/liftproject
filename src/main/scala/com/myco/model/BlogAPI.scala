@@ -4,6 +4,8 @@ import net.liftweb.http.rest.RestHelper
 import net.liftweb.http.OkResponse
 import net.liftweb.json.JValue
 import net.liftweb.util.Helpers.AsInt
+import org.bson.types.ObjectId
+
 
 object BlogAPI extends RestHelper {
 
@@ -11,17 +13,17 @@ object BlogAPI extends RestHelper {
     Article.getArticle(postID).map(_.toJSON)
   }
 
-  def deleteArticle(postID: Int) = {
+  def deleteArticle(postID: Int):OkResponse = {
     Article.deleteArticle(postID)
     new OkResponse
   }
 
   def postArticle(jsonData: JValue): JValue = {
     Article.addArticle(
-      title = (jsonData \ "title").extract[String],
-      content = (jsonData \ "content").extract[String]
-    ).toJSON
+      title = ( jsonData \ "title").extract[String],
+      content = ( jsonData \ "content").extract[String]).toJSON
   }
+
 
   serve {
     case "api" :: "blog" :: AsInt(postID) :: Nil JsonGet req => getArticleJSON(postID)

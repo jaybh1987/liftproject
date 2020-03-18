@@ -1,14 +1,13 @@
 package bootstrap.liftweb
 
-import net.liftweb._
-import util._
-import Helpers._
-import common._
-import http._
-import js.jquery.JQueryArtifacts
-import sitemap._
-import Loc._
 import com.myco.model.BlogAPI
+import net.liftweb._
+import net.liftweb.common._
+import net.liftweb.http._
+import net.liftweb.sitemap._
+import com.myco.lib._
+
+
 
 /**
  * A class that's instantiated early and run.  It allows the application
@@ -19,6 +18,10 @@ class Boot {
     // where to search snippet
     LiftRules.addToPackages("com.myco")
     LiftRules.dispatch.append(BlogAPI)
+//    LiftRules.dispatch.append(MongoModule)
+
+//    val mongoClientUri = MongoClientURI("mongodb://localhost:27017/")
+
     // Build SiteMap
     def sitemap = SiteMap()
 
