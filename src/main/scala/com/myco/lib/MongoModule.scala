@@ -3,6 +3,10 @@ import com.mongodb.casbah.Imports._
 
 object MongoModule {
 
-  def getMongoclient: MongoClient = MongoClient();
+  val mongoClient: MongoClient = MongoClient()
+
+  val db = mongoClient("mydb")
+
+  val colleciton = db("mycollection")
 
 }

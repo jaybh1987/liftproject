@@ -1,12 +1,10 @@
 package bootstrap.liftweb
 
+import com.mongodb
 import com.myco.model.BlogAPI
-import net.liftweb._
 import net.liftweb.common._
 import net.liftweb.http._
 import net.liftweb.sitemap._
-import com.myco.lib._
-
 
 
 /**
@@ -18,9 +16,6 @@ class Boot {
     // where to search snippet
     LiftRules.addToPackages("com.myco")
     LiftRules.dispatch.append(BlogAPI)
-//    LiftRules.dispatch.append(MongoModule)
-
-//    val mongoClientUri = MongoClientURI("mongodb://localhost:27017/")
 
     // Build SiteMap
     def sitemap = SiteMap()

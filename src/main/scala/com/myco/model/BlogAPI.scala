@@ -1,5 +1,6 @@
 package com.myco.model
 
+import com.myco.lib.MongoModule
 import net.liftweb.http.rest.RestHelper
 import net.liftweb.http.OkResponse
 import net.liftweb.json.JValue
@@ -24,10 +25,16 @@ object BlogAPI extends RestHelper {
       content = ( jsonData \ "content").extract[String]).toJSON
   }
 
+  def printCollection = {
+    println("this is you method call. "+MongoModule.colleciton.map(r => println(r)))
+    new OkResponse
+  }
+
 
   serve {
     case "api" :: "blog" :: AsInt(postID) :: Nil JsonGet req => getArticleJSON(postID)
     case "api" :: "blog" :: AsInt(postID) :: Nil JsonDelete req => deleteArticle(postID)
     case "api" :: "blog" :: Nil JsonPost ((jsonData, req)) => postArticle(jsonData)
+    case "api" :: "mongocol" :: Nil JsonGet req => printCollection
   }
 }
