@@ -1,11 +1,10 @@
 package com.myco.model
 
-import com.myco.lib.MongoModule
-import net.liftweb.http.rest.RestHelper
+import com.myco.lib.{Common, MongoModule, Stock}
 import net.liftweb.http.OkResponse
+import net.liftweb.http.rest.RestHelper
 import net.liftweb.json.JValue
 import net.liftweb.util.Helpers.AsInt
-import org.bson.types.ObjectId
 
 
 object BlogAPI extends RestHelper {
@@ -30,11 +29,21 @@ object BlogAPI extends RestHelper {
     new OkResponse
   }
 
+  def saveProcess = {
+    val apple = Stock("apple", 500)
+    val google = Stock("goog", 400)
+    val netflix = Stock("Nflx", 600)
+
+    Common.saveStock(apple)
+    new OkResponse
+  }
 
   serve {
     case "api" :: "blog" :: AsInt(postID) :: Nil JsonGet req => getArticleJSON(postID)
     case "api" :: "blog" :: AsInt(postID) :: Nil JsonDelete req => deleteArticle(postID)
     case "api" :: "blog" :: Nil JsonPost ((jsonData, req)) => postArticle(jsonData)
     case "api" :: "mongocol" :: Nil JsonGet req => printCollection
+    case "api" :: "saveone" :: Nil JsonGet req => saveProcess
   }
+
 }
