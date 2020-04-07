@@ -33,7 +33,20 @@ object MongoModule {
 }
 
 
-case class Stock(symbol: String, price: Double)
+case class Stock(symbol: String, price: Double) {
+
+
+  def toStockJson = {
+    import net.liftweb.json.JsonDSL._
+    ("symbol" -> symbol ) ~ ("price" -> price)
+  }
+}
+
+object Stock {
+  def addStock(symbol: String, price: Double): Stock = {
+    new Stock(symbol, price)
+  }
+}
 
 object Common {
 

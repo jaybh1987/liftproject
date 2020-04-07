@@ -37,6 +37,19 @@ object BlogAPI extends RestHelper {
     Common.saveStock(apple)
     new OkResponse
   }
+//{"symbol":"mytest", "price": 4000}
+  def saveByPostReq(jsonData: JValue): JValue= {
+    Common.saveStock(
+      Stock.addStock(
+        symbol = ( jsonData \ "symbol").extract[String],
+        price = (jsonData \ "price").extract[Double]
+      )
+    )
+    Stock.addStock(
+      symbol = ( jsonData \ "symbol").extract[String],
+      price = (jsonData \ "price").extract[Double]
+    ).toStockJson
+  }
 
   serve {
     case "api" :: "blog" :: AsInt(postID) :: Nil JsonGet req => getArticleJSON(postID)
@@ -44,6 +57,7 @@ object BlogAPI extends RestHelper {
     case "api" :: "blog" :: Nil JsonPost ((jsonData, req)) => postArticle(jsonData)
     case "api" :: "mongocol" :: Nil JsonGet req => printCollection
     case "api" :: "saveone" :: Nil JsonGet req => saveProcess
+    case "api" :: "savestock" :: Nil JsonPost((jsonData, req)) => saveByPostReq(jsonData)
   }
 
 }

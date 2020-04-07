@@ -16,6 +16,13 @@ class Boot {
     // where to search snippet
     LiftRules.addToPackages("com.myco")
     LiftRules.dispatch.append(BlogAPI)
+    LiftRules.supplementalHeaders.default.set(
+     List(
+       ("X-Lift-Version", LiftRules.liftVersion),
+       ("Access-Control-Allow-Origin", "*"),
+       ("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH"),
+       ("Access-Control-Allow-Content-Type", "application/json"))
+    )
 
     // Build SiteMap
     def sitemap = SiteMap()
