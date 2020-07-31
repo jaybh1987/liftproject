@@ -1,6 +1,6 @@
 package bootstrap.liftweb
 
-import com.mongodb
+
 import com.myco.model.BlogAPI
 import net.liftweb.common._
 import net.liftweb.http._
