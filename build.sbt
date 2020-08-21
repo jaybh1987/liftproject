@@ -23,9 +23,11 @@ libraryDependencies ++= {
     "net.liftweb"       %% "lift-webkit"            % liftVersion,
     "ch.qos.logback"    % "logback-classic"         % "1.2.3",
     "javax.servlet"     % "javax.servlet-api"       % "3.0.1"            % "provided",
-//    "net.liftweb"       %% "lift-mongodb-record"    % liftVersion,
+    //    "net.liftweb"       %% "lift-mongodb-record"    % liftVersion,
     "org.mongodb"       %% "casbah"                 % "3.1.1",
-    "com.typesafe.akka" %% "akka-http"              % "10.1.11"
+    "com.typesafe.akka" %% "akka-http"              % "10.1.11",
+    "com.typesafe.akka" %% "akka-actor" % "2.5.9",
+    "com.typesafe.akka" %% "akka-stream" % "2.5.9"
   )
 }
 /*
