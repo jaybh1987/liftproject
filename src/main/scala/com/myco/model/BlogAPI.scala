@@ -51,6 +51,30 @@ object BlogAPI extends RestHelper {
     ).toStockJson
   }
 
+  //  def saveOrder = {
+  //
+  //    import net.liftweb.json.JsonDSL._
+  //    implicit val system: ActorSystem = ActorSystem()
+  //    implicit val materializer: Materializer = ActorMaterializer()
+  //
+  //    implicit val executionContext = system.dispatcher
+  //
+  //    val uri = "http://localhost:9090/orders"
+  //    val body = new Order("jay@yahoo.com", 10d).toOrderJson.toString
+  //    val entity = HttpEntity(ContentTypes.`application/json`, body)
+  //    val request = HttpRequest(method = HttpMethods.POST, uri = uri, entity = entity)
+  //
+  //    val responseFuture = Http().singleRequest(request)
+  //
+  //    val j = responseFuture.map {
+  //      case response @HttpResponse(_, _, _, _) => println(s"successfull")
+  //      case _ => sys.error("something went wrong.")
+  //    }
+  //
+  //    val k = ("name" -> "jay") ~ ("lastname" -> "Bhavsar")
+  //    k
+  //  }
+
   serve {
     case "api" :: "blog" :: AsInt(postID) :: Nil JsonGet req => getArticleJSON(postID)
     case "api" :: "blog" :: AsInt(postID) :: Nil JsonDelete req => deleteArticle(postID)
