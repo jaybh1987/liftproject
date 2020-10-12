@@ -11,6 +11,17 @@ case class Article(
   }
 }
 
+case class Order(
+                email: String,
+                money: Double
+                ) {
+
+  def toJSON = {
+    import net.liftweb.json.JsonDSL._
+    ("email" -> email) ~ ("money" -> money)
+  }
+}
+
 object Article {
   var store: List[Article] = Article(12, "qqq", "sss") :: Nil
 

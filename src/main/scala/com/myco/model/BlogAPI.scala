@@ -1,5 +1,9 @@
 package com.myco.model
 
+import akka.actor.ActorSystem
+import akka.http.scaladsl.Http
+import akka.http.scaladsl.model._
+import akka.stream.{ActorMaterializer, Materializer}
 import com.myco.lib.{Common, MongoModule, Stock}
 import net.liftweb.http.OkResponse
 import net.liftweb.http.rest.RestHelper
@@ -51,29 +55,29 @@ object BlogAPI extends RestHelper {
     ).toStockJson
   }
 
-  //  def saveOrder = {
-  //
-  //    import net.liftweb.json.JsonDSL._
-  //    implicit val system: ActorSystem = ActorSystem()
-  //    implicit val materializer: Materializer = ActorMaterializer()
-  //
-  //    implicit val executionContext = system.dispatcher
-  //
-  //    val uri = "http://localhost:9090/orders"
-  //    val body = new Order("jay@yahoo.com", 10d).toOrderJson.toString
-  //    val entity = HttpEntity(ContentTypes.`application/json`, body)
-  //    val request = HttpRequest(method = HttpMethods.POST, uri = uri, entity = entity)
-  //
-  //    val responseFuture = Http().singleRequest(request)
-  //
-  //    val j = responseFuture.map {
-  //      case response @HttpResponse(_, _, _, _) => println(s"successfull")
-  //      case _ => sys.error("something went wrong.")
-  //    }
-  //
-  //    val k = ("name" -> "jay") ~ ("lastname" -> "Bhavsar")
-  //    k
-  //  }
+    def saveOrder = {
+
+      import net.liftweb.json.JsonDSL._
+      implicit val system: ActorSystem = ActorSystem()
+      implicit val materializer: Materializer = ActorMaterializer()
+
+      implicit val executionContext = system.dispatcher
+
+      val uri = "http://localhost:9090/orders"
+      val body = new Order("jay@yahoo.com", 10d).toJSON.toString
+      val entity = HttpEntity(ContentTypes.`application/json`, body)
+      val request = HttpRequest(method = HttpMethods.POST, uri = uri, entity = entity)
+
+      val responseFuture = Http().singleRequest(request)
+
+      val j = responseFuture.map {
+        case response @HttpResponse(_, _, _, _) => println(s"successfull")
+        case _ => sys.error("something went wrong.")
+      }
+
+      val k = ("name" -> "jay") ~ ("lastname" -> "Bhavsar")
+      k
+    }
 
   serve {
     case "api" :: "blog" :: AsInt(postID) :: Nil JsonGet req => getArticleJSON(postID)
@@ -82,6 +86,7 @@ object BlogAPI extends RestHelper {
     case "api" :: "mongocol" :: Nil JsonGet req => printCollection
     case "api" :: "saveone" :: Nil JsonGet req => saveProcess
     case "api" :: "savestock" :: Nil JsonPost((jsonData, req)) => saveByPostReq(jsonData)
+    case "api" :: "testapi" :: Nil JsonGet req => saveOrder
   }
 
 }

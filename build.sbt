@@ -22,14 +22,25 @@ libraryDependencies ++= {
   Seq(
     "net.liftweb"       %% "lift-webkit"            % liftVersion,
     "ch.qos.logback"    % "logback-classic"         % "1.2.3",
-    "javax.servlet"     % "javax.servlet-api"       % "3.0.1"            % "provided",
+    "javax.servlet"     % "javax.servlet-api"       % "3.0.1"  % "provided",
     //    "net.liftweb"       %% "lift-mongodb-record"    % liftVersion,
     "org.mongodb"       %% "casbah"                 % "3.1.1",
     "com.typesafe.akka" %% "akka-http"              % "10.1.11",
-    "com.typesafe.akka" %% "akka-actor" % "2.5.9",
-    "com.typesafe.akka" %% "akka-stream" % "2.5.9"
-  )
+    "com.typesafe.akka" %% "akka-stream" % "2.5.13")
 }
+
+
+//val AkkaVersion = "2.6.1"
+//val AkkaHttpVersion = "10.2.1"
+//
+//libraryDependencies ++= Seq(
+//  "com.typesafe.akka" %% "akka-stream" % AkkaVersion,
+//  "com.typesafe.akka" %% "akka-http" % AkkaHttpVersion
+//)
+
+
+
+
 /*
 * error : Scanning from multiple location resolved.
 * there was 2 depedancy of mongo was added was the main cause of the issue.
@@ -37,6 +48,15 @@ libraryDependencies ++= {
 //libraryDependencies += {
 //  "net.liftweb" %% "lift-mongodb-record" % "3.3.0"
 //}
+
+/*
+* "com.typesafe.akka" %% "akka-http"              % "10.1.11",
+    "com.typesafe.akka" %% "akka-actor" % "2.5.9",
+    "com.typesafe.akka" %% "akka-stream" % "2.5.9"
+*
+* */
+
+
 
 scalacOptions in Test ++= Seq("-Yrangepos")
 
