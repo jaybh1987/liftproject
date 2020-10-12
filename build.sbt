@@ -18,15 +18,16 @@ unmanagedResourceDirectories in Test += baseDirectory.value / "src/main/webapp"
 scalacOptions ++= Seq("-deprecation", "-unchecked")
 
 libraryDependencies ++= {
-  val liftVersion = "3.3.0"
+  val liftVersion = "3.2.0"
   Seq(
     "net.liftweb"       %% "lift-webkit"            % liftVersion,
     "ch.qos.logback"    % "logback-classic"         % "1.2.3",
     "javax.servlet"     % "javax.servlet-api"       % "3.0.1"  % "provided",
     //    "net.liftweb"       %% "lift-mongodb-record"    % liftVersion,
     "org.mongodb"       %% "casbah"                 % "3.1.1",
-    "com.typesafe.akka" %% "akka-http"              % "10.1.11",
-    "com.typesafe.akka" %% "akka-stream" % "2.5.13")
+    "com.typesafe.akka" %% "akka-http"              % "10.1.7",
+    "com.typesafe.akka" %% "akka-stream" % "2.5.21"
+  )
 }
 
 
