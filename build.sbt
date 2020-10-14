@@ -26,7 +26,8 @@ libraryDependencies ++= {
     //    "net.liftweb"       %% "lift-mongodb-record"    % liftVersion,
     "org.mongodb"       %% "casbah"                 % "3.1.1",
     "com.typesafe.akka" %% "akka-http"              % "10.1.7",
-    "com.typesafe.akka" %% "akka-stream" % "2.5.21"
+    "com.typesafe.akka" %% "akka-stream" % "2.5.21",
+    "com.typesafe.akka" %% "akka-http-spray-json" % "10.1.7"
   )
 }
 

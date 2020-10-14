@@ -2,13 +2,22 @@ package com.myco.model
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.model._
+import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.stream.{ActorMaterializer, Materializer}
 import com.myco.lib.{Common, MongoModule, Stock}
 import net.liftweb.http.OkResponse
 import net.liftweb.http.rest.RestHelper
 import net.liftweb.json.JValue
 import net.liftweb.util.Helpers.AsInt
+import spray.json.DefaultJsonProtocol
+import akka.http.scaladsl.unmarshalling._
+import akka.http.scaladsl.common.EntityStreamingSupport
+import akka.http.scaladsl.common.JsonEntityStreamingSupport
+
+import scala.concurrent.Await
+import scala.concurrent.duration._
 
 
 object BlogAPI extends RestHelper {
@@ -57,6 +66,12 @@ object BlogAPI extends RestHelper {
 
     def saveOrder = {
 
+
+      trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
+        implicit val orderFormat = jsonFormat2(Order)
+      }
+
+      implicit val jsonStreamigSupport: JsonEntityStreamingSupport = EntityStreamingSupport.json()
       import net.liftweb.json.JsonDSL._
       implicit val system: ActorSystem = ActorSystem()
       implicit val materializer: Materializer = ActorMaterializer()
@@ -64,19 +79,37 @@ object BlogAPI extends RestHelper {
       implicit val executionContext = system.dispatcher
 
       val uri = "http://localhost:9090/orders"
-      val body = new Order("jay@yahoo.com", 10d).toJSON.toString
-      val entity = HttpEntity(ContentTypes.`application/json`, body)
+
+      val jsonBody = "{ \"email\": \"John\", \"money\": 30 }"
+
+      val body = new Order("jay@yahoo.com", 10d).toJSON
+
+      val entity = HttpEntity(ContentTypes.`application/json`, jsonBody)
       val request = HttpRequest(method = HttpMethods.POST, uri = uri, entity = entity)
 
+      println("before")
       val responseFuture = Http().singleRequest(request)
 
       val j = responseFuture.map {
-        case response @HttpResponse(_, _, _, _) => println(s"successfull")
+        case response @HttpResponse( stCode, httpHeader, respEntity, httpProto) =>
+          println(
+            s"""
+               |stCode = $stCode
+               |httpHeader = $httpHeader
+               |respEntiry = $respEntity
+               |httpProto = $httpProto
+             """.stripMargin)
         case _ => sys.error("something went wrong.")
       }
 
-      val k = ("name" -> "jay") ~ ("lastname" -> "Bhavsar")
-      k
+
+//      val unmarshalled = Unmarshal(j).to[Order]
+
+//      val k = Await.result(j, 10.second)
+
+
+
+      new OkResponse
     }
 
   serve {
